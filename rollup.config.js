@@ -17,7 +17,7 @@ export default {
   input: 'src/index.tsx',
   output: {
     file: 'public/index.js',
-    format: 'iife',
+    format: 'esm',
   },
   plugins: [
     replace({
@@ -25,14 +25,10 @@ export default {
     }),
     resolve({
       extensions,
+      externals: builtins,
     }),
     commonjs({
       include: /node_modules/,
-      namedExports: {
-        "react-sizeme": ["SizeMe"],
-        "react": ["Component"],
-        "prop-types": ["string", "number"],
-      },
       ignore: ["async_hooks"]
     }),
     nodePolyfills(),
