@@ -7,6 +7,8 @@ import scss from 'rollup-plugin-scss';
 import { terser } from 'rollup-plugin-terser';
 import serve from 'rollup-plugin-serve';
 import livereload from 'rollup-plugin-livereload';
+import builtins from 'builtin-modules'
+import nodePolyfills from "rollup-plugin-node-polyfills";
 
 const isProd = process.env.NODE_ENV === 'production';
 const extensions = ['.js', '.ts', '.tsx'];
@@ -26,7 +28,14 @@ export default {
     }),
     commonjs({
       include: /node_modules/,
+      namedExports: {
+        "react-sizeme": ["SizeMe"],
+        "react": ["Component"],
+        "prop-types": ["string", "number"],
+      },
+      ignore: ["async_hooks"]
     }),
+    nodePolyfills(),
     babel({
       extensions,
       exclude: /node_modules/,
